@@ -15,6 +15,7 @@ header {
 
 
 .start-quiz {
+
     margin: 200px;
     display: flex;
     flex-direction: column;
@@ -36,7 +37,7 @@ main p span {
     font-size: 20px;
     font-weight: 500;
     color:white;
-    padding: 5px 15px;
+    padding: 10px 15px;
     outline: none;
     border: none;
     border-radius: 5px;
@@ -50,10 +51,68 @@ main p span {
 }
 
 .quiz-section {
+
     margin: 200px 35%;
-    display: flex;
-    flex-direction: column;
+    display: none;
     align-items: left;
-    gap: 8px;
+
+    
+}
+
+.options:hover {
+    background-color: rgb(142, 105, 176);
+}
+
+.quiz-section .questions, 
+.quiz-section .options {
+    margin: 10px 60% 0 0;
+}
+
+.quiz-footer {
+    border-top: 2px solid rgb(167, 165, 165);
+    margin-top: 20px;
+    padding-top: 10px;
+}
+
+.post-quiz, .score-list {
+    margin: 200px 35%;
+    display: block;
+    align-items: left;
+}
+
+.show-score, .initials, 
+.all-done, .high-score,
+.init-score, .return {
+    margin: 15px ;
+}
+
+.input {
+    height: 30px;
+    padding: 12px 15px;
+}
+
+.init-score {
+    background-color: rgb(199, 183, 213);
+    padding: 5px;
+}
+
+.list-of-score {
+    list-style: number inside;
+}
+
+.submit-btn, .go-back-btn, .clear-btn {
+    
+
+    color:white;
+    padding: 5px 10px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(67, 9, 121);
+    cursor: pointer;
+}
+
+.submit-btn:hover, .go-back-btn:hover, .clear-btn:hover {
+    background-color: rgb(142, 105, 176);
 }
 
