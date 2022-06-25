@@ -9,9 +9,9 @@ header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: baseline;
 
 }
-
 
 
 .start-quiz {
@@ -76,7 +76,7 @@ main p span {
 
 .post-quiz, .score-list {
     margin: 200px 35%;
-    display: block;
+    display: none;
     align-items: left;
 }
 
