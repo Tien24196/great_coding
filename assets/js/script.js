@@ -6,24 +6,94 @@ var scoreListEl = document.querySelector(".score-list");
 var questionEl = document.querySelector(".questions");
 var optionEl = document.querySelector(".options");
 var quizFooterEl = document.querySelector(".quiz-footer");
+var answerSectionEl = document.querySelector(".answers");
+var postQuizEl = document.querySelector(".post-quiz");
+var showScoreEl = document.querySelector(".show-score");
+var postFooterEl = document.querySelector(".post-footer");
+var submitBtnEl = document.querySelector(".submit-btn");
+var scoreListEl = document.querySelector (".score-list");
+var initialInputEl = document.querySelector (".input");
+var scoreInitEl = document.querySelector (".list-of-score");
+var goBackEl = document.querySelector(".go-back-btn");
+var clearStorageEl = document.querySelector(".clear-btn");
+var viewScoresEl = document.querySelector(".view-score-btn")
 
 
 
-var timeLeft = 5;
+var questions = [
+    {
+        question: "Commonly used data types DO NOT include:",
+        answers: [
+            {text: "alerts", correct: true },
+            {text: "booleans", correct: false },
+            {text: "strings", correct: false },
+            {text: "numbers", correct: false },
+            
+        ]
+    },
+    {
+        question: "The condition in an if / else statement is enclosed with ______.",
+        answers: [
+            {text: "quotes", correct: false },
+            {text: "curly brackets", correct: false },
+            {text: "parenthesis", correct: true },
+            {text: "square brackets", correct: false },
+            
+        ]
+    },
+    {
+        question: "Arrays in JavaScript can be used to store __________.",
+        answers: [
+            {text: "numbers and strings", correct: false },
+            {text: "other arrays", correct: false },
+            {text: "booleans", correct: false },
+            {text: "all of the above", correct: true },
+            
+        ]
+    },
+    {
+        question: "String values must be enclosed within ____ when being assigned to variables.",
+        answers: [
+            {text: "commas", correct: false },
+            {text: "curly brackets", correct: false },
+            {text: "parenthesis", correct: false },
+            {text: "quotes", correct: true },
+            
+        ]
+    },
+    {
+        question: "A very useful tool used during development and debugging for printing content to the debugger is:",
+        answers: [
+            {text: "console.log", correct: true },
+            {text: "JavaScript", correct: false },
+            {text: "terminal/bash", correct: false },
+            {text: "for loops", correct: false },
+            
+        ]
+    }
+];
+
+
+
+var currentQuestion = 0;
+var timeLeft = 90;
+
+var scoresEl = [];
+
+
+
 function countDown() {
-    
-    var timeInterval = setInterval(function() {
-        if (timeLeft > 0) {
+
             timeLeft--;
             timeLeftEl.textContent = "Time: " + timeLeft;
+            if (timeLeft === 0) {
+                postQuiz()
+            };
 
-        } else {
-            quizSectionEl.style.display = "none";
-            scoreListEl.style.display = "block";
-            clearInterval(timeInterval);
-            timeLeftEl.textContent = "Time: " + 0;
-        }
-    },1000);
+    
+
+
+   
 };
 
 
@@ -32,22 +102,15 @@ clickButtonEl.addEventListener("click", function() {
     startEl.style.display = "none";
     quizSectionEl.style.display = "block";
     timeLeftEl.textContent = "Time: " + timeLeft;
-    countDown();
-    setNextQuestion();
-
+    timeInterval = setInterval(countDown,1000);
+    showQuestion();
 });
 
 
 
-function setNextQuestion() {
-   showQuestion();
-
-};
-
-
 function showQuestion() {
-    questionEl.textContent = questions[0].question;
-    questions[0].answers.forEach(answer => {
+    questionEl.textContent = questions[currentQuestion].question;
+    questions[currentQuestion].answers.forEach(answer => {
         var answerDiv = document.createElement("div");
         answerDiv.textContent = answer.text;
         answerDiv.classList.add("options");
@@ -56,7 +119,7 @@ function showQuestion() {
         };
 
         answerDiv.addEventListener("click", selectAnswer);
-        quizSectionEl.appendChild(answerDiv);
+        answerSectionEl.appendChild(answerDiv);
 
 
     });
@@ -64,73 +127,151 @@ function showQuestion() {
 
 
 function selectAnswer(e) {
+  
+
     var selectedAnswer = e.target;
     var correct = selectedAnswer.dataset.correct;
+
+    while (answerSectionEl.firstChild) {
+        answerSectionEl.removeChild(answerSectionEl.firstChild);
+    };
+
     if (correct) {
-        quizFooterEl.textContent = "correct"
+        quizFooterEl.textContent = "Correct!";
+        postFooterEl.textContent = "Correct!";
     } else {
-        quizFooterEl.textContent = "wrong"
+        timeLeft = timeLeft - 10;
+        timeLeft = Math.max(timeLeft,0);
+        quizFooterEl.textContent = "Wrong!";
+        postFooterEl.textContent = "Wrong!";
+    }
+    
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
+       
+    } else {
+        postQuiz();
+
     }
 
+    
+    if (timeLeft === 0 ) {
+        postQuiz();
+        
+}
+};
+
+function postQuiz () {
+
+    quizSectionEl.style.display = "none";
+    postQuizEl.style.display = "block";
+    clearInterval(timeInterval);
+    timeLeftEl.textContent = "Time: " + timeLeft;
+    showScoreEl.textContent = "Your final score is " + timeLeft;
+
+    submitBtnEl.addEventListener("click", showScoreList);
+    
 };
 
 
-// optionEl.removeEventListener("click",)
 
+function showScoreList(event) {
 
+    event.preventDefault();
 
-var questions = [
-    {
-        question: "Who are you",
-        answers: [
-            {text: "Mina", correct: true },
-            {text: "Daniel", correct: false },
-            {text: "Tien", correct: false },
-            {text: "John", correct: false },
-            
-        ]
-    },
-    {
-        question: "how old are you",
-        answers: [
-            {text: "20", correct: false },
-            {text: "35", correct: false },
-            {text: "7", correct: true },
-            {text: "19", correct: false },
-            
-        ]
-    },
-    {
-        question: "you from",
-        answers: [
-            {text: "vietnam", correct: false },
-            {text: "korea", correct: true },
-            {text: "japan", correct: false },
-            {text: "UK", correct: false },
-            
-        ]
-    },
-    {
-        question: "where you live",
-        answers: [
-            {text: "high point", correct: false },
-            {text: "greensboro", correct: false },
-            {text: "ashville", correct: false },
-            {text: "DC", correct: true },
-            
-        ]
-    },
-    {
-        question: "live with",
-        answers: [
-            {text: "mom", correct: false },
-            {text: "dad", correct: false },
-            {text: "sis", correct: true },
-            {text: "bro", correct: false },
-            
-        ]
+    if (!initialInputEl.value) {
+        alert("Please enter your initial before hitting submit!")
+    } else {
+    
+    postQuizEl.style.display = "none";
+    scoreListEl.style.display = "block";
+
+    var initial = initialInputEl.value.toUpperCase();
+   
+    scoresEl.push({initials: initial, scores: timeLeft});
+    scoresEl = scoresEl.sort((a, b) => {
+        if (a.scores < b.scores) {
+          return 1;
+        } else {
+          return -1;
+        }
+    
+      });
+    
+      scoreInitEl.innerHTML="";
+      for (let i = 0; i < scoresEl.length; i++) {
+          let li = document.createElement("li");
+          li.textContent = `${scoresEl[i].initials}: ${scoresEl[i].scores}`;
+          scoreInitEl.append(li);
+      }
+         console.log(scoresEl)
+    
+      storeScores();
+      displayScores();
+  }};
+
+  function storeScores() {
+    localStorage.setItem("scoreList", JSON.stringify(scoresEl));
+  };
+
+  function displayScores() {
+
+    var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
+
+    
+    if (storedScoreList !== null) {
+        scoresEl = storedScoreList;
     }
-];
+};
+
+
+goBackEl.addEventListener("click", function () {
+    scoreListEl.style.display = "none";
+    startEl.style.display = "flex";
+    timeLeft = 90;
+    timeLeftEl.textContent = "Time: " + timeLeft;
+    currentQuestion = 0;
+    quizFooterEl.textContent="";
+
+});
+
+clearStorageEl.addEventListener("click", function() {
+    localStorage.clear();
+    scoreInitEl.innerHTML="";
+    scoresEl = [];
+});
+
+
+
+
+viewScoresEl.addEventListener("click", function() {
+    
+    if (!scoresEl[0]) {
+        alert("No scores to show");
+    } else {
+        startEl.style.display = "none";
+        scoreListEl.style.display = "block";
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    
+
+
+
 
 
 

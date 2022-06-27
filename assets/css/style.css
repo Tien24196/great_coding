@@ -13,6 +13,23 @@ header {
 
 }
 
+/* header .disabled {
+    pointer-events: none;
+} */
+
+
+header .view-score-btn {
+    color:rgb(80, 30, 126);
+    background-color: white;
+    border: 0;
+    
+}
+
+
+header .view-score-btn:hover {
+    color: rgb(25, 213, 28);
+}
+
 
 .start-quiz {
 
@@ -63,12 +80,14 @@ main p span {
     background-color: rgb(142, 105, 176);
 }
 
-.quiz-section .questions, 
+.quiz-section .questions {
+    margin: 10px 20% 0 0;
+}
 .quiz-section .options {
     margin: 10px 60% 0 0;
 }
 
-.quiz-footer {
+.quiz-footer, .post-footer {
     border-top: 2px solid rgb(167, 165, 165);
     margin-top: 20px;
     padding-top: 10px;
