@@ -19,7 +19,7 @@ var clearStorageEl = document.querySelector(".clear-btn");
 var viewScoresEl = document.querySelector(".view-score-btn")
 
 
-
+// Question array.
 var questions = [
     {
         question: "Commonly used data types DO NOT include:",
@@ -74,14 +74,13 @@ var questions = [
 ];
 
 
-
+// Variables for the timer and score.
 var currentQuestion = 0;
 var timeLeft = 90;
-
 var scoresEl = [];
 
 
-
+// Timer function.
 function countDown() {
 
             timeLeft--;
@@ -89,16 +88,12 @@ function countDown() {
             if (timeLeft === 0) {
                 postQuiz()
             };
-
-    
-
-
-   
+                
 };
 
-
+// Event when start quiz buttun is clicked.
 clickButtonEl.addEventListener("click", function() {
-
+    viewScoresEl.style.display = "none";
     startEl.style.display = "none";
     quizSectionEl.style.display = "block";
     timeLeftEl.textContent = "Time: " + timeLeft;
@@ -107,7 +102,7 @@ clickButtonEl.addEventListener("click", function() {
 });
 
 
-
+// Create div for each question and anwser.
 function showQuestion() {
     questionEl.textContent = questions[currentQuestion].question;
     questions[currentQuestion].answers.forEach(answer => {
@@ -125,7 +120,7 @@ function showQuestion() {
     });
 };
 
-
+// Envents when each answer is chosen.
 function selectAnswer(e) {
   
 
@@ -162,6 +157,8 @@ function selectAnswer(e) {
 }
 };
 
+
+// Post-quiz is generated when last question is answered.
 function postQuiz () {
 
     quizSectionEl.style.display = "none";
@@ -175,13 +172,15 @@ function postQuiz () {
 };
 
 
-
+//Function to show scores and inital of players.
 function showScoreList(event) {
 
     event.preventDefault();
+  
 
     if (!initialInputEl.value) {
-        alert("Please enter your initial before hitting submit!")
+        alert("Please enter your initial before submitting!");
+        return false;
     } else {
     
     postQuizEl.style.display = "none";
@@ -199,7 +198,7 @@ function showScoreList(event) {
     
       });
     
-      scoreInitEl.innerHTML="";
+    scoreInitEl.innerHTML="";
       for (let i = 0; i < scoresEl.length; i++) {
           let li = document.createElement("li");
           li.textContent = `${scoresEl[i].initials}: ${scoresEl[i].scores}`;
@@ -211,22 +210,17 @@ function showScoreList(event) {
       displayScores();
   }};
 
+
+// Store score array to local storage.
   function storeScores() {
     localStorage.setItem("scoreList", JSON.stringify(scoresEl));
   };
 
-  function displayScores() {
+  
 
-    var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
-
-    
-    if (storedScoreList !== null) {
-        scoresEl = storedScoreList;
-    }
-};
-
-
+// Event when go-back button is clicked.
 goBackEl.addEventListener("click", function () {
+    viewScoresEl.style.display = "block";
     scoreListEl.style.display = "none";
     startEl.style.display = "flex";
     timeLeft = 90;
@@ -236,6 +230,8 @@ goBackEl.addEventListener("click", function () {
 
 });
 
+
+// Event when clear-storage button is clicked.
 clearStorageEl.addEventListener("click", function() {
     localStorage.clear();
     scoreInitEl.innerHTML="";
@@ -244,16 +240,37 @@ clearStorageEl.addEventListener("click", function() {
 
 
 
-
+// Generate score windown when view-score button is clicked.
 viewScoresEl.addEventListener("click", function() {
-    
+    displayScores();
+    scoreInitEl.innerHTML="";
+
+    for (let i = 0; i < scoresEl.length; i++) {
+          let li = document.createElement("li");
+          li.textContent = `${scoresEl[i].initials}: ${scoresEl[i].scores}`;
+          scoreInitEl.append(li);
+      };
+
     if (!scoresEl[0]) {
         alert("No scores to show");
     } else {
         startEl.style.display = "none";
         scoreListEl.style.display = "block";
+       
     }
 });
+
+// Retrieve score from local storage.
+function displayScores() {
+
+    var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
+    
+
+    
+    if (storedScoreList !== null) {
+        scoresEl = storedScoreList;
+    }
+ };
 
 
 

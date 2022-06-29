@@ -13,9 +13,7 @@ header {
 
 }
 
-/* header .disabled {
-    pointer-events: none;
-} */
+
 
 
 header .view-score-btn {
@@ -81,6 +79,8 @@ main p span {
 }
 
 .quiz-section .questions {
+    font-size: 25px;
+    font-weight: bold;
     margin: 10px 20% 0 0;
 }
 .quiz-section .options {
